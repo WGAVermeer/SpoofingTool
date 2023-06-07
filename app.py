@@ -13,11 +13,12 @@ def main(name: str, hasallcaps: bool = False):
     else:
         print(f"Hello {name}")
 
-def Arp_Spoof(ipVictim: str, ipServer: str):
-    main.mkspoofARP(ipVictim, ipServer)
+def Arp_MiM(ipVictim: str, ipServer: str):
+    ArpPoison.MIMspoofARP(ipVictim, ipServer)
 
-def DNS_Spoof(ipVictim: str, orginalWebsite: str, evilWebsite: str):
-    #DNS_SPoofer = DnsSnoof(ipVictim, orginalWebsite, evilWebsite) #TODO: Fix after DNS_Spoofer.py rewrite
+def DNS_Spoof(ipVictim: str, orginalWebsite: str, evilWebsiteIP: str):
+    #DNS_Spoofer = DnsSnoof(ipVictim, orginalWebsite, evilWebsiteIP) #TODO: Fix after DNS_Spoofer.py rewrite
+    #DNS_Spoofer()
     print("This is a placeholder, you shouldn't be seeing this!")
 
 if __name__ == "__main__":

