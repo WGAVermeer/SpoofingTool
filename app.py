@@ -2,7 +2,7 @@ import typer
 
 import ArpPoison;
 
-from DNS_Spoofer import DnsSnoof
+#from DNS_Spoofer import DnsSnoof
 
 app = typer.Typer()
 
@@ -13,9 +13,11 @@ def main(name: str, hasallcaps: bool = False):
     else:
         print(f"Hello {name}")
 
+@app.command()
 def Arp_MiM(ipVictim: str, ipServer: str):
     ArpPoison.MIMspoofARP(ipVictim, ipServer)
 
+@app.command()
 def DNS_Spoof(ipVictim: str, orginalWebsite: str, evilWebsiteIP: str):
     #DNS_Spoofer = DnsSnoof(ipVictim, orginalWebsite, evilWebsiteIP) #TODO: Fix after DNS_Spoofer.py rewrite
     #DNS_Spoofer()

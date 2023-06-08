@@ -8,7 +8,6 @@ interface = conf.iface
 macAttacker = get_if_hwaddr(interface)
 ipAttacker = get_if_addr(interface)
 
-
 macVictim = "ff:ff:ff:ff:ff:ff"
 ipVictim = "255.255.255.255"
 
@@ -49,6 +48,3 @@ def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
 
     sendp(undoVictim, iface=interface, count=4, verbose=False)
     sendp(undoServer, iface=interface, count=4, verbose=False)
-
-
-MIMspoofARP(ipVictim, ipServer)
