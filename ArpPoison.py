@@ -40,7 +40,7 @@ def MIMspoofARP(ipVictim, ipServer):
             sendp(arpFrom, iface=interface, verbose=False)
             time.sleep(rd.randrange(20,60))
     except KeyboardInterrupt:
-        undoARPSpoof(ipVictim, ipServer)
+        undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
 
 
 def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
