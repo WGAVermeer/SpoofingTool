@@ -1,4 +1,4 @@
-import scapy.all
+from scapy.all import *
 
 import time
 
