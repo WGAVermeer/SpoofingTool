@@ -1,7 +1,7 @@
 from scapy.all import *
 
 ipVictim = '192.168.178.144' # The IP address of the victim
-goodSite = 'www.htmhell.dev' # The website we want to redirect them from
+goodSite = 'google.com' # The website we want to redirect them from
 evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
     
 def dns_req_test() : # This function is used to see if the packets we send out are correct
