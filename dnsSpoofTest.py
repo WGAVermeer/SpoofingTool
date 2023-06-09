@@ -17,6 +17,7 @@ def dns_packet_filter(packet):
 def sniffPKT(ipVictim, goodSite) :
     pkt = sniff(lfilter=dns_packet_filter, filter='udp and host ' + ipVictim, count=1, prn=lambda x: x.show())
     if pkt[0][DNSQR].qname == goodSite :
+        print("Correct DNS packet Intercepted")
         return pkt[0]
     else :
         return pkt[0]
