@@ -50,6 +50,7 @@ def main() :
         try:
             pkt = sniffPKT(ipVictim, goodSite)
             pktCounter = pktCounter + 1
+            print('Intercepted packets: ' + pktCounter)
             MIMspoofDNS(pkt, goodSite, evilSite)
         except KeyboardInterrupt:
             break
