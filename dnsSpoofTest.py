@@ -9,9 +9,13 @@ def dns_req_test() : # This function is used to see if the packets we send out a
     # dns_packet2.show()
     send(dns_packet2)
     
+def dns_packet_filter(packet):
+    if DNS in packet and packet[DNS].qd.qname.decode() == goodSite:
+        return True
+    return False    
     
 def sniffPKT(ipVictim, goodSite) :
-    pkt = sniff(lfilter=lambda p: p.haslayer(UDP) and p.dport == 53, filter='host ' + ipVictim, count=1, prn=lambda x: x.show())
+    pkt = sniff(lfilter=dns_packet_filter, filter='udp and host ' + ipVictim, count=1, prn=lambda x: x.show())
     if pkt[0][DNSQR].qname == goodSite :
         return pkt[0]
     else :
