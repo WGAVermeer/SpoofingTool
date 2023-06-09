@@ -10,7 +10,7 @@ def dns_req_test() : # This function is used to see if the packets we send out a
     send(dns_packet2)
     
 def dns_packet_filter(packet):
-    if DNS in packet and packet[DNS].qd.qname.decode() == goodSite:
+    if DNS in packet and packet[DNS].qd.qname.decodeRR()[0] == goodSite:
         return True
     return False    
     
