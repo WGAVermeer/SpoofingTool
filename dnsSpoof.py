@@ -48,7 +48,7 @@ def main() :
         try:
             pkt = sniffPKT(ipVictim, goodSite)
             MIMspoofDNS(pkt, goodSite, evilSite)
-        except:
+        except KeyboardInterrupt:
             break
 
 main()
