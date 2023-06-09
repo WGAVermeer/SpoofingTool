@@ -2,11 +2,6 @@ from scapy.all import *
 # TODO Fix For IPv6
 # Integrate as MIM attack
 
-ipVictim = '192.168.178.144' # The IP address of the victim
-goodSite = 'google.com' # The website we want to redirect them from
-evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
-pktCounter = 0 # Counts how many DNS packets have been intercepted
-    
 # def dns_req_test() : # This function is used to see if the packets we send out are correct
 #     dns_packet2 = IP(dst='8.8.8.8') / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname='www.google.com'))
 #     # dns_packet2.show()
