@@ -1,5 +1,6 @@
 from scapy.all import *
-# TODO 
+# TODO Fix For IPv6
+# Integrate as MIM attack
 
 ipVictim = '192.168.178.144' # The IP address of the victim
 goodSite = 'google.com' # The website we want to redirect them from
