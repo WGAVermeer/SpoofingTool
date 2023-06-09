@@ -45,6 +45,7 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
     
 def main() :
+    pktCounter = 0
     while True: 
         try:
             pkt = sniffPKT(ipVictim, goodSite)
