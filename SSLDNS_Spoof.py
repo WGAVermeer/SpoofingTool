@@ -69,7 +69,7 @@ class Dns_spoof:
 
 if __name__ == '__main__':
     print('in main')
-    host = ("www.google.com", "188.114.96.0")
+    host = ("tue.nl", "146.190.62.39")
     queue_num = 1
     ipVictim = '192.168.178.144' # The IP address of the victim
     ipServer = '192.168.178.1' # The IP address of the gateway   
