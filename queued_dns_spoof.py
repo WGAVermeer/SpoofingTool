@@ -56,4 +56,5 @@ if __name__ == '__main__':
     ipVictim = '192.168.178.144' # The IP address of the victim
     ipServer = '192.168.178.1' # The IP address of the gateway   
     print('starting spoof') 
-    Dns_spoof(queue_num, ipVictim, ipServer, host)    
+    x = Dns_spoof(queue_num, ipVictim, ipServer, host)    
+    x
