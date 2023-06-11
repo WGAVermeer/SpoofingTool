@@ -35,7 +35,6 @@ class Dns_spoof:
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
-            packet.show()
             try:
                 queryName = packet[DNSQR].qname.decode()
                 #if queryName in self.host:
