@@ -3,7 +3,8 @@ from netfilterqueue import NetfilterQueue
 import os
 import ArpPoison
 import threading
-from scapy.all import IP, UDP, DNS, DNSRR, DNSQR, Ether, HTTP, HTTPRequests, HTTPResponse
+from scapy.all import IP, UDP, DNS, DNSRR, DNSQR, Ether
+from scapy.layers.http import *
 
 class Dns_spoof:
 
