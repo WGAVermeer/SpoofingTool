@@ -15,7 +15,7 @@ def main(name: str, hasallcaps: bool = False):
 
 @app.command()
 def Arp_MiM(ipVictim: str, ipServer: str):
-    ArpPoison.MIMspoofARP(ipVictim, ipServer)
+    ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()
 def DNS_Spoof(ipVictim: str, orginalWebsite: str, evilWebsiteIP: str):
