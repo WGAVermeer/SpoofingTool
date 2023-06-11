@@ -46,6 +46,7 @@ class Dns_spoof:
             except IndexError as error:
                 return False
             packet.summary()
+            packet.show()
             bin_packet.set_payload(bytes(packet))
         elif packet.haslayer(DNSRR) :
             try:
