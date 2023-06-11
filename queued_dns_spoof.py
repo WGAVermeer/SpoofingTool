@@ -1,5 +1,5 @@
 from typing import Any
-from netfilterqueue import NetFilterQueue
+from netfilterqueue import NetfilterQueue
 import os
 import ArpPoison
 import threading
