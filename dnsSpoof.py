@@ -59,7 +59,6 @@ def initQueue(queueNum) :
     queue.bind(queueNum, callback)
     queue.run()
     
-    
 def main() :
     pktCounter = 0
     queueNum = 1
@@ -75,3 +74,4 @@ def main() :
             break
 
 main()
+

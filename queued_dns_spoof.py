@@ -8,6 +8,7 @@ from scapy.all import IP, UDP, DNS, DNSRR, DNSQR, Ether
 class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
+        print('in init')
         self.queue_num = 1
         self.pktCounter = 0
         
@@ -53,5 +54,6 @@ if __name__ == '__main__':
     host = ("www.google.com", "188.114.96.0")
     queue_num = 1
     ipVictim = '192.168.178.144' # The IP address of the victim
-    ipServer = '192.168.178.1' # The IP address of the gateway    
+    ipServer = '192.168.178.1' # The IP address of the gateway   
+    print('starting spoof') 
     Dns_spoof(queue_num, ipVictim, ipServer, host)    

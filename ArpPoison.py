@@ -62,3 +62,5 @@ def prepPacket(targetMAC, targetIP, spoofedIP):
 
 if __name__ == "__main__":
     MIMspoofARP(ipVictim, ipServer)
+
+
