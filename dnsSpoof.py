@@ -1,17 +1,19 @@
 from scapy.all import *
 import threading
 import ArpPoison
-from netfilterqueue import NetFilterQueue
+# from netfilterqueue import NetFilterQueue
 import os
 
 # TODO Fix For IPv6
 # Integrate as MIM attack
 # Fix crashing problem when DNSQR not detected
 
-# def dns_req_test() : # This function is used to see if the packets we send out are correct
-#     dns_packet2 = IP(dst='8.8.8.8') / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname='www.google.com'))
-#     # dns_packet2.show()
-#     send(dns_packet2)
+def dns_req_test() : # This function is used to see if the packets we send out are correct
+    dns_packet2 = IP(dst='8.8.8.8') / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname='www.httpforever.com'))
+    dns_packet3 = IP(dst='8.8.8.8') / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname='www.faceit.com'))
+    # dns_packet2.show()
+    # send(dns_packet2)
+    send(dns_packet3)
 
 ipVictim = '192.168.178.144' # The IP address of the victim
 ipServer = '192.168.178.1' # The IP address of the gateway
@@ -73,5 +75,5 @@ def main() :
         except KeyboardInterrupt:
             break
 
-main()
-
+# main()
+dns_req_test()

