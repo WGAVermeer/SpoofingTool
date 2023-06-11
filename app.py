@@ -20,7 +20,7 @@ def Arp_MiM(ipVictim: str, ipServer: str):
     ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()
-def DNS_Spoof(ipVictim: str, OGSite: str, EvilIp: str, queue_num: int = 1, ipRouter = "Default Router",):
+def DNS_Spoof(ipVictim: str = "0.0.0.0", OGSite: str = 'tue.nl', EvilIp: str = "146.190.62.39", queue_num: int = 1, ipRouter = "Default Router"):
     
     if ipRouter == "Default Router":
         ipRouter = conf.route.route("0.0.0.0")[2]
