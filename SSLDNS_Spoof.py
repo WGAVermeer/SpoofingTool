@@ -56,7 +56,7 @@ class Dns_spoof:
         elif packet.haslayer(HTTPRequest):
             try:
                 httpHost = packet[HTTPRequest].Host
-                if httpHost in host:
+                if self.host[0] in httpHost:
                     del packet[HTTPRequest].Upgrade_Insecure_Requests
                     del packet[IP].len
                     del packet[IP].chksum
