@@ -8,9 +8,12 @@ from scapy.all import IP, UDP, NDS, DNSRR, DNSQR, Ether
 class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
-        self.queue_num = 1
+        self.queue_num = queue_num
+        self.ipServer = ipServer
+        self.ipVictim = ipVictim
+        self.host = host
         self.pktCounter = 0
-
+        
     def __call__(self) -> None:
 
         arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
