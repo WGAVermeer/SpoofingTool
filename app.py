@@ -1,8 +1,10 @@
 import typer
+from scapy.all import conf
 
 import ArpPoison;
 
 #from DNS_Spoofer import DnsSnoof
+from queued_dns_spoof import Dns_spoof
 
 app = typer.Typer()
 
@@ -15,12 +17,17 @@ def main(name: str, hasallcaps: bool = False):
 
 @app.command()
 def Arp_MiM(ipVictim: str, ipServer: str):
-    ArpPoison.MIMspoofARP(ipVictim, ipServer)
+    ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()
-def DNS_Spoof(ipVictim: str, orginalWebsite: str, evilWebsiteIP: str):
-    #DNS_Spoofer = DnsSnoof(ipVictim, orginalWebsite, evilWebsiteIP) #TODO: Fix after DNS_Spoofer.py rewrite
-    #DNS_Spoofer()
+def DNS_Spoof(ipVictim: str, OGSite: str, EvilIp: str, queue_num: int = 1, ipRouter = "Default Router",):
+    
+    if ipRouter == "Default Router":
+        ipRouter = conf.route.route("0.0.0.0")[2]
+
+    host = (OGSite, EvilIp)
+    Dns_spoof(queue_num=queue_num, ipVictim=ipVictim, ipServer=ipRouter, host=host)
+
     print("This is a placeholder, you shouldn't be seeing this!")
 
 if __name__ == "__main__":
