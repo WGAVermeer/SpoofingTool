@@ -48,8 +48,9 @@ class Dns_spoof:
                     del packet[IP].chksum
                     del packet[UDP].len
                     del packet[UDP].chksum
-                except IndexError as error:
-                    return False
+
+            except IndexError:
+                return False
             packet.summary()
             bin_packet.set_payload(bytes(packet))
         elif packet.haslayer(HTTPRequest):
