@@ -9,7 +9,7 @@ from queued_dns_spoof import Dns_spoof
 app = typer.Typer()
 
 @app.command()
-def Arp_MiM(ipVictim: str, ipServer: str):
+def Arp_MiM(ipVictim: str = "0.0.0.0", ipServer: str = "0.0.0.0"):
     ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()
