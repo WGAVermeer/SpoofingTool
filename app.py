@@ -9,13 +9,6 @@ from queued_dns_spoof import Dns_spoof
 app = typer.Typer()
 
 @app.command()
-def main(name: str, hasallcaps: bool = False):
-    if hasallcaps:
-        print(f"HELLO {name.upper()}")
-    else:
-        print(f"Hello {name}")
-
-@app.command()
 def Arp_MiM(ipVictim: str, ipServer: str):
     ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
