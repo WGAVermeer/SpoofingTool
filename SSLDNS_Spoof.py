@@ -52,7 +52,7 @@ class Dns_spoof:
                 return False
             packet.summary()
             bin_packet.set_payload(bytes(packet))
-        elif packet.haslayer(HTTPResponse):
+        elif packet.haslayer(HTTPRequest):
             try:
                 httpHost = packet[HTTPRequest].Host.decode()
                 if self.host[0] in httpHost:
