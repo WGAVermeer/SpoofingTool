@@ -40,7 +40,7 @@ class Dns_spoof:
                 if self.host[0] in queryName:
                     #print("Packet in host")
                     packet[DNS].an = DNSRR(
-                        queryName, rdata=self.host[1])
+                        rrname=queryName, rdata=self.host[1])
                     packet[DNS].ancount = 1
                     del packet[IP].len
                     del packet[IP].chksum
