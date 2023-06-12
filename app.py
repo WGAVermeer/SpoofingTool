@@ -21,7 +21,6 @@ def DNS_Spoof(ipVictim: str = "0.0.0.0", OGSite: str = 'tue.nl', EvilIp: str = "
     #print (f'ipVictim = {ipVictim}, ipRouter = {ipRouter}, evilIP = {EvilIp}, OGSite = {OGSite}, queue_num = {queue_num}')
 
     host = (OGSite, EvilIp)
-    print(host)
     spoof = Dns_spoof(queue_num=queue_num, ipVictim=ipVictim, ipServer=ipRouter, host=host)
     spoof()
 
